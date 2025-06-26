@@ -1,0 +1,24 @@
+{%- assign crumb_list = page.breadcrumb | default: [] -%}
+{%- assign this_url   = site.url | append: page.url -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+  {%- for c in crumb_list -%}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.index }},
+      "name": "{{ c.name | escape }}",
+      "item": "{{ site.url | append: c.url }}"
+    },
+  {%- endfor -%}
+    {
+      "@type": "ListItem",
+      "position": {{ crumb_list.size | plus: 1 }},
+      "name": "{{ page.title | escape }}",
+      "item": "{{ this_url }}"
+    }
+  ]
+}
+</script>
